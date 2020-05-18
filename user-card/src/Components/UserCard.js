@@ -8,7 +8,7 @@ class UserCard extends React.Component {
 
   render(){
     return(
-      <div className="user-card">
+      <div>
         {props.user.map((person)=>{
           return <UserCard key={item.id} user={person} />
         })}

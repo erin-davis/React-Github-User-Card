@@ -39,9 +39,22 @@ export default class UserInfo extends React.Component{
   }
 
   render(){
+//    console.log("inside userinfo", this.state.people)
     return (
-      <div>
-
+      <div className="user-card">
+      <div className="individual">
+      <h4>Name: {this.state.user.login}</h4>
+                <p>ID: {this.state.user.id}</p>
+      </div>
+      { this.state.people.map((item, index) =>{
+        console.log(item.login)
+        return(
+          <div className="individual">
+          <h4>Username: {item.login}</h4>
+          <p>ID: {item.id}</p>
+          </div>
+        )
+      })}
       </div>
     )
   }
