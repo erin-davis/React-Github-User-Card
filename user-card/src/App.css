@@ -36,9 +36,16 @@
     transform: rotate(360deg);
   }
 }
-
+.user-card{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  border: 2px solid hotpink;
+}
 .individual{
-  border: 2px solid slategray;
-  width: 40%;
-  margin: 15px 30%;
+  width: 300px;
+  padding: 10px 15px;
+  margin: 2% 10px;
+  border: 1px solid slategray;
 }

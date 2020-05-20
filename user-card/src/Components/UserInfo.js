@@ -9,45 +9,67 @@ export default class UserInfo extends React.Component{
     super();
     this.state = {
       user: [],
-      people: []
+      people: [],
+      followers: []
     }
+    console.log('inside constructor');
   }
 
   //componentDidMount with axios call
   componentDidMount(){
-    //https://api.github.com/users/erin-davis
-    //first axios if for a list of 30 random gh users
-    axios.get(`https://api.github.com/users`)
-      .then(res => {
-        const people = res.data;
-        console.log("this one is random users",people);
-        this.setState({people: people})
+  //I'm using axios.all here to do three calls at once and make this neater
+  let one = `https://api.github.com/users`;
+  let two = `https://api.github.com/users/erin-davis`;
+  let three = `https://api.github.com/users/erin-davis/followers`;
+
+  const reqOne = axios.get(one);
+  const reqTwo =  axios.get(two);
+  const reqThree = axios.get(three);
+
+  //order is people, user, followers (to be edited to be followers though)
+
+  axios
+    .all([reqOne, reqTwo, reqThree])
+    .then(
+      axios.spread((...res) =>{
+        const resOne = res[0];
+        const resTwo = res[1];
+        const resThree = res[2];
+
+        const people = resOne.data;
+        const user = resTwo.data;
+        const followers = resThree.data;
+
+        //setting state
+        this.setState({people: people, user: user, followers: followers})
+
+        console.log(resOne.data, resTwo.data, resThree);
       })
-      .catch(err =>{
-        console.log("this is the error within the people axios:", err);
-      })
-      //I'm doing a second axios call for a single user (me)
-      axios.get(`https://api.github.com/users/erin-davis`)
-        .then(res =>{
-          const user = res.data;
-          console.log('this is only me', user);
-          this.setState({user: user})
-        })
-        .catch(err =>{
-          console.log('this error is from the single user axios', err);
-        })
-  }
+    )
+    .catch(errs =>{
+      console.error(errs);
+    })
+
+
+
+}
 
   render(){
-//    console.log("inside userinfo", this.state.people)
     return (
       <div className="user-card">
       <div className="individual">
       <h4>Name: {this.state.user.login}</h4>
                 <p>ID: {this.state.user.id}</p>
       </div>
-      { this.state.people.map((item, index) =>{
-        console.log(item.login)
+      {this.state.followers.map((item)=>{
+        return(
+          <div className="followers individual">
+            <h4>Username: {item.login}</h4>
+            <p>ID: {item.id}</p>
+          </div>
+        )
+      })}
+      {this.state.people.map((item) =>{
         return(
           <div className="individual">
           <h4>Username: {item.login}</h4>

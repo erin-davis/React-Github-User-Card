@@ -8,11 +8,10 @@ class App extends Component {
     super();
     this.state = {
       name: "Erin!",
-      user: [
-      ],
+      user: [],
       people: []
     }
-      console.log('from app', this.state.user);
+//      console.log('from app', this.state.user);
   }
 
   render(){
@@ -20,6 +19,7 @@ class App extends Component {
       <div className="App">
         <h1>React Github User Card for {this.state.name}</h1>
         <UserInfo />
+
       </div>
     )
   }
